@@ -1,5 +1,25 @@
 export type Language = 'en' | 'ta' | 'hi';
 
+export type Theme = 'agriculture' | 'sky' | 'monsoon' | 'light' | 'dark';
+
+export type UserRole = 'farmer' | 'officer' | 'fpo' | 'other';
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  mobile: string;
+  state: string;
+  district: string;
+  block: string;
+  village: string;
+  preferredLanguage: Language;
+  preferredCrop: CropType;
+  role: UserRole;
+  theme: Theme;
+  createdAt: string;
+}
+
 export type PageId = 
   | 'home'
   | 'dashboard'
@@ -11,7 +31,10 @@ export type PageId =
   | 'map'
   | 'officer'
   | 'performance'
-  | 'about';
+  | 'about'
+  | 'login'
+  | 'register'
+  | 'settings';
 
 export type MonsoonStatusType = 
   | 'not_started'

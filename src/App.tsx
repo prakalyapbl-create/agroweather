@@ -13,12 +13,15 @@ import { MapView } from './components/MapView';
 import { OfficerDashboard } from './components/OfficerDashboard';
 import { ModelPerformancePage } from './components/ModelPerformancePage';
 import { AboutPage } from './components/AboutPage';
+import { LoginPage } from './components/auth/LoginPage';
+import { RegisterPage } from './components/auth/RegisterPage';
+import { SettingsPage } from './components/settings/SettingsPage';
 
 const MainContent: React.FC = () => {
   const { activePage } = useApp();
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20 lg:pb-12">
       {activePage === 'home' && <LandingPage />}
       {activePage === 'dashboard' && <FarmerDashboard />}
       {activePage === 'break_risk' && <BreakRiskSection />}
@@ -30,6 +33,9 @@ const MainContent: React.FC = () => {
       {activePage === 'officer' && <OfficerDashboard />}
       {activePage === 'performance' && <ModelPerformancePage />}
       {activePage === 'about' && <AboutPage />}
+      {activePage === 'login' && <LoginPage />}
+      {activePage === 'register' && <RegisterPage />}
+      {activePage === 'settings' && <SettingsPage />}
     </main>
   );
 };
@@ -37,7 +43,7 @@ const MainContent: React.FC = () => {
 export function App() {
   return (
     <AppProvider>
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      <div className="min-h-screen theme-bg-app theme-text-primary flex flex-col font-sans transition-colors duration-300">
         <Navbar />
         <div className="flex-1">
           <MainContent />

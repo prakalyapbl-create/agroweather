@@ -48,22 +48,24 @@ export const FarmerDashboard: React.FC = () => {
   const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newDistrict = e.target.value;
     const newBlocks = Object.keys(DISTRICT_BLOCK_MAP[newDistrict] || {});
-    const defaultBlock = newBlocks[0] || '';
-    const defaultVillages = DISTRICT_BLOCK_MAP[newDistrict]?.[defaultBlock] || [];
+    const firstBlock = newBlocks[0] || '';
+    const newVillages = DISTRICT_BLOCK_MAP[newDistrict]?.[firstBlock] || [];
+
     setLocation({
       district: newDistrict,
-      block: defaultBlock,
-      village: defaultVillages[0] || 'Sample Village',
+      block: firstBlock,
+      village: newVillages[0] || '',
     });
   };
 
   const handleBlockChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newBlock = e.target.value;
-    const defaultVillages = DISTRICT_BLOCK_MAP[location.district]?.[newBlock] || [];
+    const newVillages = DISTRICT_BLOCK_MAP[location.district]?.[newBlock] || [];
+
     setLocation({
       ...location,
       block: newBlock,
-      village: defaultVillages[0] || 'Sample Village',
+      village: newVillages[0] || '',
     });
   };
 
@@ -76,39 +78,39 @@ export const FarmerDashboard: React.FC = () => {
 
   const statusStyles: Record<string, { bg: string; border: string; text: string; dot: string }> = {
     onset_expected: {
-      bg: 'bg-emerald-500/15',
-      border: 'border-emerald-500/40',
+      bg: 'bg-emerald-500/10',
+      border: 'border-emerald-500/30',
       text: 'text-emerald-400',
-      dot: 'bg-emerald-500',
+      dot: 'bg-emerald-400',
     },
     active_monsoon: {
-      bg: 'bg-cyan-500/15',
-      border: 'border-cyan-500/40',
+      bg: 'bg-cyan-500/10',
+      border: 'border-cyan-500/30',
       text: 'text-cyan-400',
       dot: 'bg-cyan-400',
     },
     break_likely: {
-      bg: 'bg-amber-500/15',
-      border: 'border-amber-500/40',
+      bg: 'bg-amber-500/10',
+      border: 'border-amber-500/30',
       text: 'text-amber-400',
-      dot: 'bg-amber-500',
+      dot: 'bg-amber-400',
     },
     break_ongoing: {
-      bg: 'bg-rose-500/15',
-      border: 'border-rose-500/40',
+      bg: 'bg-rose-500/10',
+      border: 'border-rose-500/30',
       text: 'text-rose-400',
       dot: 'bg-rose-500',
     },
     rainfall_returning: {
-      bg: 'bg-teal-500/15',
-      border: 'border-teal-500/40',
+      bg: 'bg-teal-500/10',
+      border: 'border-teal-500/30',
       text: 'text-teal-400',
       dot: 'bg-teal-400',
     },
     not_started: {
-      bg: 'bg-slate-700/30',
-      border: 'border-slate-600',
-      text: 'text-slate-300',
+      bg: 'bg-slate-700/20',
+      border: 'border-slate-600/30',
+      text: 'theme-text-primary',
       dot: 'bg-slate-400',
     },
   };
@@ -119,15 +121,15 @@ export const FarmerDashboard: React.FC = () => {
     <div className="space-y-8 py-4">
       
       {/* TOP LOCATION SELECTOR BAR */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="theme-bg-card border theme-border rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2 text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">
-            <MapPin className="w-4 h-4" />
+            <MapPin className="w-4 h-4 text-emerald-400" />
             <span>{t('selectedLocation')}</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-white flex items-center space-x-2">
+          <h2 className="text-xl sm:text-2xl font-black theme-text-primary flex items-center space-x-2">
             <span>{location.village}</span>
-            <span className="text-slate-400 text-sm font-normal">
+            <span className="theme-text-muted text-sm font-normal">
               ({location.block} Block, {location.district} Dist)
             </span>
           </h2>
@@ -136,11 +138,11 @@ export const FarmerDashboard: React.FC = () => {
         {/* Dropdown Selectors */}
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           <div className="flex flex-col">
-            <label className="text-[10px] font-bold text-slate-400 mb-1">{t('district')}</label>
+            <label className="text-[10px] font-bold theme-text-muted mb-1">{t('district')}</label>
             <select
               value={location.district}
               onChange={handleDistrictChange}
-              className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-semibold focus:outline-none focus:border-emerald-500"
+              className="theme-bg-input border theme-border rounded-lg px-3 py-1.5 text-xs theme-text-primary font-semibold focus:outline-none focus:border-emerald-500"
             >
               {districts.map((d) => (
                 <option key={d} value={d}>
@@ -151,11 +153,11 @@ export const FarmerDashboard: React.FC = () => {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-[10px] font-bold text-slate-400 mb-1">{t('block')}</label>
+            <label className="text-[10px] font-bold theme-text-muted mb-1">{t('block')}</label>
             <select
               value={location.block}
               onChange={handleBlockChange}
-              className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-semibold focus:outline-none focus:border-emerald-500"
+              className="theme-bg-input border theme-border rounded-lg px-3 py-1.5 text-xs theme-text-primary font-semibold focus:outline-none focus:border-emerald-500"
             >
               {blocks.map((b) => (
                 <option key={b} value={b}>
@@ -166,11 +168,11 @@ export const FarmerDashboard: React.FC = () => {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-[10px] font-bold text-slate-400 mb-1">{t('village')}</label>
+            <label className="text-[10px] font-bold theme-text-muted mb-1">{t('village')}</label>
             <select
               value={location.village}
               onChange={handleVillageChange}
-              className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-semibold focus:outline-none focus:border-emerald-500"
+              className="theme-bg-input border theme-border rounded-lg px-3 py-1.5 text-xs theme-text-primary font-semibold focus:outline-none focus:border-emerald-500"
             >
               {villages.map((v) => (
                 <option key={v} value={v}>
@@ -184,7 +186,7 @@ export const FarmerDashboard: React.FC = () => {
             onClick={runDemoScenario}
             className="md:mt-4 px-3 py-2 rounded-lg bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold flex items-center space-x-1.5 hover:from-amber-500/30 hover:to-orange-500/30 transition-all"
           >
-            <RefreshCw className="w-3.5 h-3.5 animate-spin-slow" />
+            <RefreshCw className="w-3.5 h-3.5" />
             <span>Simulate Scenario</span>
           </button>
         </div>
@@ -192,59 +194,59 @@ export const FarmerDashboard: React.FC = () => {
 
       {/* CURRENT WEATHER CARDS GRID */}
       <div>
-        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">
+        <h3 className="text-sm font-bold theme-text-muted uppercase tracking-wider mb-3">
           {t('currentWeather')}
         </h3>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center space-x-3">
+          <div className="theme-bg-card border theme-border rounded-xl p-4 flex items-center space-x-3 shadow-md">
             <div className="p-3 rounded-lg bg-rose-500/10 text-rose-400">
               <Thermometer className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[11px] text-slate-400 font-medium">{t('temperature')}</p>
-              <p className="text-lg font-black text-white">{currentWeather.temperature}°C</p>
+              <p className="text-[11px] theme-text-muted font-medium">{t('temperature')}</p>
+              <p className="text-lg font-black theme-text-primary">{currentWeather.temperature}°C</p>
             </div>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center space-x-3">
+          <div className="theme-bg-card border theme-border rounded-xl p-4 flex items-center space-x-3 shadow-md">
             <div className="p-3 rounded-lg bg-cyan-500/10 text-cyan-400">
               <CloudRain className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[11px] text-slate-400 font-medium">{t('rainfall')}</p>
-              <p className="text-lg font-black text-white">{currentWeather.rainfall} mm</p>
+              <p className="text-[11px] theme-text-muted font-medium">{t('rainfall')}</p>
+              <p className="text-lg font-black theme-text-primary">{currentWeather.rainfall} mm</p>
             </div>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center space-x-3">
+          <div className="theme-bg-card border theme-border rounded-xl p-4 flex items-center space-x-3 shadow-md">
             <div className="p-3 rounded-lg bg-teal-500/10 text-teal-400">
               <Droplets className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[11px] text-slate-400 font-medium">{t('humidity')}</p>
-              <p className="text-lg font-black text-white">{currentWeather.humidity}%</p>
+              <p className="text-[11px] theme-text-muted font-medium">{t('humidity')}</p>
+              <p className="text-lg font-black theme-text-primary">{currentWeather.humidity}%</p>
             </div>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center space-x-3">
+          <div className="theme-bg-card border theme-border rounded-xl p-4 flex items-center space-x-3 shadow-md">
             <div className="p-3 rounded-lg bg-amber-500/10 text-amber-400">
               <Layers className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[11px] text-slate-400 font-medium">{t('soilMoisture')}</p>
-              <p className="text-lg font-black text-white">{currentWeather.soilMoisture}%</p>
+              <p className="text-[11px] theme-text-muted font-medium">{t('soilMoisture')}</p>
+              <p className="text-lg font-black theme-text-primary">{currentWeather.soilMoisture}%</p>
             </div>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center space-x-3 col-span-2 sm:col-span-1">
+          <div className="theme-bg-card border theme-border rounded-xl p-4 flex items-center space-x-3 col-span-2 sm:col-span-1 shadow-md">
             <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400">
               <Wind className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[11px] text-slate-400 font-medium">{t('windSpeed')}</p>
-              <p className="text-lg font-black text-white">{currentWeather.windSpeed} km/h</p>
+              <p className="text-[11px] theme-text-muted font-medium">{t('windSpeed')}</p>
+              <p className="text-lg font-black theme-text-primary">{currentWeather.windSpeed} km/h</p>
             </div>
           </div>
 
@@ -256,16 +258,16 @@ export const FarmerDashboard: React.FC = () => {
         
         <div className={`lg:col-span-2 rounded-3xl border p-6 sm:p-8 space-y-6 ${activeStyle.bg} ${activeStyle.border} shadow-2xl relative overflow-hidden`}>
           
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-700/40 pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b theme-border-subtle pb-4">
             <div className="flex items-center space-x-2">
               <span className={`w-3 h-3 rounded-full ${activeStyle.dot} animate-pulse`} />
-              <span className="text-xs font-extrabold uppercase tracking-widest text-slate-300">
+              <span className="text-xs font-extrabold uppercase tracking-widest theme-text-secondary">
                 {t('monsoonStatus')}
               </span>
             </div>
-            <div className="flex items-center space-x-2 bg-slate-900/60 px-3 py-1 rounded-full text-xs font-semibold text-slate-300">
+            <div className="flex items-center space-x-2 theme-bg-input px-3 py-1 rounded-full text-xs font-semibold theme-text-secondary">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>{t('confidence')}: <strong className="text-white">{prediction.confidenceScore}% ({prediction.confidenceLevel})</strong></span>
+              <span>{t('confidence')}: <strong className="theme-text-primary">{prediction.confidenceScore}% ({prediction.confidenceLevel})</strong></span>
             </div>
           </div>
 
@@ -273,30 +275,30 @@ export const FarmerDashboard: React.FC = () => {
             <h1 className={`text-3xl sm:text-4xl font-black ${activeStyle.text} tracking-tight`}>
               {prediction.statusLabel}
             </h1>
-            <p className="text-base text-slate-200 font-semibold flex items-center space-x-2">
-              <Calendar className="w-4 h-4 text-slate-400" />
-              <span>Expected Timing: <strong className="text-white">{prediction.expectedOnsetDays}</strong></span>
+            <p className="text-base theme-text-secondary font-semibold flex items-center space-x-2">
+              <Calendar className="w-4 h-4 text-emerald-400" />
+              <span>Expected Timing: <strong className="theme-text-primary">{prediction.expectedOnsetDays}</strong></span>
             </p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
-            <div className="bg-slate-900/70 rounded-xl p-3.5 border border-slate-800">
-              <p className="text-[11px] text-slate-400 font-medium">{t('rainfallProbability')}</p>
+            <div className="theme-bg-input rounded-xl p-3.5 border theme-border">
+              <p className="text-[11px] theme-text-muted font-medium">{t('rainfallProbability')}</p>
               <p className="text-xl font-black text-emerald-400">{prediction.onsetProbability}%</p>
             </div>
-            <div className="bg-slate-900/70 rounded-xl p-3.5 border border-slate-800">
-              <p className="text-[11px] text-slate-400 font-medium">{t('breakRisk')}</p>
+            <div className="theme-bg-input rounded-xl p-3.5 border theme-border">
+              <p className="text-[11px] theme-text-muted font-medium">{t('breakRisk')}</p>
               <p className={`text-xl font-black ${prediction.breakProbability > 60 ? 'text-rose-400' : 'text-amber-400'}`}>
                 {prediction.breakRiskLevel} ({prediction.breakProbability}%)
               </p>
             </div>
-            <div className="bg-slate-900/70 rounded-xl p-3.5 border border-slate-800 col-span-2 sm:col-span-1">
-              <p className="text-[11px] text-slate-400 font-medium">Next Action</p>
+            <div className="theme-bg-input rounded-xl p-3.5 border theme-border col-span-2 sm:col-span-1">
+              <p className="text-[11px] theme-text-muted font-medium">Next Action</p>
               <button
                 onClick={() => setActivePage('advisory')}
                 className="text-xs font-bold text-emerald-400 hover:underline flex items-center space-x-1 mt-1"
               >
-                <span>View Crop Advisory</span>
+                <span>{t('viewAdvisory')}</span>
                 <CheckCircle className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -304,39 +306,39 @@ export const FarmerDashboard: React.FC = () => {
 
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between space-y-4 shadow-xl">
+        <div className="theme-bg-card border theme-border rounded-3xl p-6 flex flex-col justify-between space-y-4 shadow-xl">
           <div>
             <div className="flex items-center space-x-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
               <AlertTriangle className="w-4 h-4" />
               <span>{t('breakTitle')}</span>
             </div>
-            <h3 className="text-xl font-black text-white">
+            <h3 className="text-xl font-black theme-text-primary">
               Dry Spell Assessment
             </h3>
 
             <div className="mt-4 space-y-3">
-              <div className="flex justify-between items-center text-xs py-1.5 border-b border-slate-800">
-                <span className="text-slate-400">{t('expectedDryPeriod')}</span>
-                <span className="font-extrabold text-white">{prediction.drySpellDurationDays}</span>
+              <div className="flex justify-between items-center text-xs py-1.5 border-b theme-border-subtle">
+                <span className="theme-text-muted">{t('expectedDryPeriod')}</span>
+                <span className="font-extrabold theme-text-primary">{prediction.drySpellDurationDays}</span>
               </div>
-              <div className="flex justify-between items-center text-xs py-1.5 border-b border-slate-800">
-                <span className="text-slate-400">{t('possibleStart')}</span>
-                <span className="font-extrabold text-amber-300">{prediction.possibleBreakStart}</span>
+              <div className="flex justify-between items-center text-xs py-1.5 border-b theme-border-subtle">
+                <span className="theme-text-muted">{t('possibleStart')}</span>
+                <span className="font-extrabold text-amber-400">{prediction.possibleBreakStart}</span>
               </div>
-              <div className="flex justify-between items-center text-xs py-1.5 border-b border-slate-800">
-                <span className="text-slate-400">{t('possibleReturn')}</span>
+              <div className="flex justify-between items-center text-xs py-1.5 border-b theme-border-subtle">
+                <span className="theme-text-muted">{t('possibleReturn')}</span>
                 <span className="font-extrabold text-emerald-400">{prediction.possibleRainfallReturn}</span>
               </div>
             </div>
 
-            <p className="text-xs text-slate-300 mt-4 leading-relaxed bg-slate-800/50 p-3 rounded-xl border border-slate-700/50">
+            <p className="text-xs theme-text-secondary mt-4 leading-relaxed theme-bg-input p-3 rounded-xl border theme-border">
               "{t('breakDesc')}"
             </p>
           </div>
 
           <button
             onClick={() => setActivePage('break_risk')}
-            className="w-full py-2.5 rounded-xl bg-slate-800 text-amber-300 font-bold text-xs hover:bg-slate-700 transition-colors border border-amber-500/20 text-center"
+            className="w-full py-2.5 rounded-xl theme-bg-input text-amber-400 font-bold text-xs hover:bg-emerald-500/10 transition-colors border border-amber-500/30 text-center"
           >
             View Deep Break Risk Indicators →
           </button>
@@ -345,26 +347,26 @@ export const FarmerDashboard: React.FC = () => {
       </div>
 
       {/* VISUAL MONSOON TIMELINE */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+      <div className="theme-bg-card border theme-border rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-extrabold text-white flex items-center space-x-2">
+          <h3 className="text-lg font-extrabold theme-text-primary flex items-center space-x-2">
             <TrendingUp className="w-5 h-5 text-emerald-400" />
             <span>{t('timelineTitle')}</span>
           </h3>
-          <span className="text-xs text-slate-400 font-medium">
+          <span className="text-xs theme-text-muted font-medium">
             Stage 2 of 5 Active
           </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 relative">
           
-          <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-4 text-center space-y-2 relative">
-            <span className="text-[10px] font-bold text-slate-400 uppercase">Today</span>
-            <div className="w-8 h-8 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center mx-auto text-xs font-bold">
+          <div className="theme-bg-input border theme-border rounded-xl p-4 text-center space-y-2 relative">
+            <span className="text-[10px] font-bold theme-text-muted uppercase">Today</span>
+            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-xs font-bold">
               1
             </div>
-            <h4 className="text-xs font-extrabold text-slate-300">{t('preMonsoon')}</h4>
-            <p className="text-[10px] text-slate-400">Sowing prep & nursery setup</p>
+            <h4 className="text-xs font-extrabold theme-text-primary">{t('preMonsoon')}</h4>
+            <p className="text-[10px] theme-text-muted">Sowing prep & nursery setup</p>
           </div>
 
           <div className="bg-emerald-500/20 border-2 border-emerald-500 rounded-xl p-4 text-center space-y-2 relative shadow-lg shadow-emerald-500/10">
@@ -374,60 +376,60 @@ export const FarmerDashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mx-auto text-xs font-black">
               2
             </div>
-            <h4 className="text-xs font-extrabold text-emerald-300">{t('likelyOnset')}</h4>
-            <p className="text-[10px] text-emerald-200/80">+3 to 5 Days</p>
+            <h4 className="text-xs font-extrabold text-emerald-400">{t('likelyOnset')}</h4>
+            <p className="text-[10px] theme-text-secondary">+3 to 5 Days</p>
           </div>
 
-          <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-4 text-center space-y-2 relative">
-            <span className="text-[10px] font-bold text-slate-400 uppercase">+12 Days</span>
-            <div className="w-8 h-8 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center mx-auto text-xs font-bold">
+          <div className="theme-bg-input border theme-border rounded-xl p-4 text-center space-y-2 relative">
+            <span className="text-[10px] font-bold theme-text-muted uppercase">+12 Days</span>
+            <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-xs font-bold">
               3
             </div>
-            <h4 className="text-xs font-extrabold text-slate-300">{t('activeRainfall')}</h4>
-            <p className="text-[10px] text-slate-400">Peak transplanting</p>
+            <h4 className="text-xs font-extrabold theme-text-primary">{t('activeRainfall')}</h4>
+            <p className="text-[10px] theme-text-muted">Peak transplanting</p>
           </div>
 
-          <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-4 text-center space-y-2 relative">
-            <span className="text-[10px] font-bold text-slate-400 uppercase">+20 Days</span>
-            <div className="w-8 h-8 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center mx-auto text-xs font-bold">
+          <div className="theme-bg-input border theme-border rounded-xl p-4 text-center space-y-2 relative">
+            <span className="text-[10px] font-bold theme-text-muted uppercase">+20 Days</span>
+            <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto text-xs font-bold">
               4
             </div>
-            <h4 className="text-xs font-extrabold text-slate-300">{t('possibleBreak')}</h4>
-            <p className="text-[10px] text-slate-400">4-6 days dry spell</p>
+            <h4 className="text-xs font-extrabold theme-text-primary">{t('possibleBreak')}</h4>
+            <p className="text-[10px] theme-text-muted">4-6 days dry spell</p>
           </div>
 
-          <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-4 text-center space-y-2 relative">
-            <span className="text-[10px] font-bold text-slate-400 uppercase">+26 Days</span>
-            <div className="w-8 h-8 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center mx-auto text-xs font-bold">
+          <div className="theme-bg-input border theme-border rounded-xl p-4 text-center space-y-2 relative">
+            <span className="text-[10px] font-bold theme-text-muted uppercase">+26 Days</span>
+            <div className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto text-xs font-bold">
               5
             </div>
-            <h4 className="text-xs font-extrabold text-slate-300">{t('rainfallReturn')}</h4>
-            <p className="text-[10px] text-slate-400">Secondary spell</p>
+            <h4 className="text-xs font-extrabold theme-text-primary">{t('rainfallReturn')}</h4>
+            <p className="text-[10px] theme-text-muted">Secondary spell</p>
           </div>
 
         </div>
       </div>
 
       {/* 7-DAY INTERACTIVE FORECAST CHART */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+      <div className="theme-bg-card border theme-border rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
         
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h3 className="text-lg font-extrabold text-white">
+            <h3 className="text-lg font-extrabold theme-text-primary">
               {t('chartTitle')}
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs theme-text-muted">
               Daily trend metrics for {location.village}
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2 bg-slate-800 p-1.5 rounded-xl border border-slate-700">
+          <div className="flex flex-wrap gap-2 theme-bg-input p-1.5 rounded-xl border theme-border">
             <button
               onClick={() => setActiveChartMetric('prob')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeChartMetric === 'prob'
                   ? 'bg-emerald-500 text-slate-950 shadow'
-                  : 'text-slate-400 hover:text-white'
+                  : 'theme-text-muted hover:theme-text-primary'
               }`}
             >
               {t('probToggle')}
@@ -437,7 +439,7 @@ export const FarmerDashboard: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeChartMetric === 'rain'
                   ? 'bg-cyan-500 text-slate-950 shadow'
-                  : 'text-slate-400 hover:text-white'
+                  : 'theme-text-muted hover:theme-text-primary'
               }`}
             >
               {t('rainToggle')}
@@ -447,7 +449,7 @@ export const FarmerDashboard: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeChartMetric === 'temp'
                   ? 'bg-rose-500 text-white shadow'
-                  : 'text-slate-400 hover:text-white'
+                  : 'theme-text-muted hover:theme-text-primary'
               }`}
             >
               {t('tempToggle')}
@@ -457,7 +459,7 @@ export const FarmerDashboard: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeChartMetric === 'soil'
                   ? 'bg-amber-500 text-slate-950 shadow'
-                  : 'text-slate-400 hover:text-white'
+                  : 'theme-text-muted hover:theme-text-primary'
               }`}
             >
               {t('soilToggle')}
@@ -473,10 +475,10 @@ export const FarmerDashboard: React.FC = () => {
               <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#0f172a',
-                  borderColor: '#334155',
+                  backgroundColor: 'var(--bg-card)',
+                  borderColor: 'var(--border-app)',
                   borderRadius: '12px',
-                  color: '#f8fafc',
+                  color: 'var(--text-primary)',
                   fontSize: '12px',
                 }}
               />
@@ -501,16 +503,16 @@ export const FarmerDashboard: React.FC = () => {
       </div>
 
       {/* EXPLAINABLE AI SECTION */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+      <div className="theme-bg-card border theme-border rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
         <div className="flex items-center space-x-3">
           <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400">
             <HelpCircle className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-xl font-extrabold text-white">
+            <h3 className="text-xl font-extrabold theme-text-primary">
               {t('whyPredicting')}
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs theme-text-muted">
               Explainable AI Feature Attribution Breakdown for {location.village}
             </p>
           </div>
@@ -520,10 +522,10 @@ export const FarmerDashboard: React.FC = () => {
           
           <div className="space-y-2">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-300">{t('rainfallTrend')}</span>
+              <span className="theme-text-secondary">{t('rainfallTrend')}</span>
               <span className="text-emerald-400">{prediction.factors.rainfallTrend}%</span>
             </div>
-            <div className="w-full bg-slate-800 rounded-full h-3">
+            <div className="w-full theme-bg-input rounded-full h-3">
               <div
                 className="bg-emerald-500 h-3 rounded-full transition-all duration-500"
                 style={{ width: `${prediction.factors.rainfallTrend}%` }}
@@ -533,10 +535,10 @@ export const FarmerDashboard: React.FC = () => {
 
           <div className="space-y-2">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-300">{t('soilMoisture')}</span>
+              <span className="theme-text-secondary">{t('soilMoisture')}</span>
               <span className="text-amber-400">{prediction.factors.soilMoisture}%</span>
             </div>
-            <div className="w-full bg-slate-800 rounded-full h-3">
+            <div className="w-full theme-bg-input rounded-full h-3">
               <div
                 className="bg-amber-500 h-3 rounded-full transition-all duration-500"
                 style={{ width: `${prediction.factors.soilMoisture}%` }}
@@ -546,10 +548,10 @@ export const FarmerDashboard: React.FC = () => {
 
           <div className="space-y-2">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-300">{t('cloudActivity')}</span>
+              <span className="theme-text-secondary">{t('cloudActivity')}</span>
               <span className="text-cyan-400">{prediction.factors.cloudActivity}%</span>
             </div>
-            <div className="w-full bg-slate-800 rounded-full h-3">
+            <div className="w-full theme-bg-input rounded-full h-3">
               <div
                 className="bg-cyan-500 h-3 rounded-full transition-all duration-500"
                 style={{ width: `${prediction.factors.cloudActivity}%` }}
@@ -559,10 +561,10 @@ export const FarmerDashboard: React.FC = () => {
 
           <div className="space-y-2">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-300">{t('historicalMatch')}</span>
+              <span className="theme-text-secondary">{t('historicalMatch')}</span>
               <span className="text-purple-400">{prediction.factors.historicalMatch}%</span>
             </div>
-            <div className="w-full bg-slate-800 rounded-full h-3">
+            <div className="w-full theme-bg-input rounded-full h-3">
               <div
                 className="bg-purple-500 h-3 rounded-full transition-all duration-500"
                 style={{ width: `${prediction.factors.historicalMatch}%` }}
@@ -572,10 +574,10 @@ export const FarmerDashboard: React.FC = () => {
 
         </div>
 
-        <div className="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 text-xs text-slate-300 leading-relaxed flex items-start space-x-3">
+        <div className="theme-bg-input border theme-border rounded-2xl p-4 sm:p-5 text-xs theme-text-secondary leading-relaxed flex items-start space-x-3">
           <Info className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
           <div>
-            <h4 className="font-extrabold text-white mb-1">AI Rationale Summary</h4>
+            <h4 className="font-extrabold theme-text-primary mb-1">AI Rationale Summary</h4>
             <p>{prediction.explanationText}</p>
           </div>
         </div>

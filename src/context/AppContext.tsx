@@ -1,21 +1,26 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type {
   Language,
+  Theme,
   PageId,
   LocationInfo,
   CropType,
   WeatherAlert,
   FarmerFeedbackItem,
   PredictionOutput,
-  CurrentWeather
+  CurrentWeather,
+  UserProfile
 } from '../types';
 import { DISTRICT_BLOCK_MAP, INITIAL_ALERTS, INITIAL_FEEDBACK } from '../data/mockData';
 import { calculatePrediction } from '../utils/predictionEngine';
 import { TRANSLATIONS } from '../i18n/translations';
+import { authService } from '../services/auth';
 
 interface AppContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
   activePage: PageId;
   setActivePage: (page: PageId) => void;
   location: LocationInfo;
@@ -35,21 +40,61 @@ interface AppContextType {
   districts: string[];
   blocks: string[];
   villages: string[];
+  currentUser: UserProfile | null;
+  setCurrentUser: (user: UserProfile | null) => void;
+  logoutUser: () => void;
+  isAuthenticated: boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
-  const [activePage, setActivePage] = useState<PageId>('home');
+const THEME_STORAGE_KEY = 'agroweather_theme_pref_v1';
+const LANG_STORAGE_KEY = 'agroweather_lang_pref_v1';
 
-  const [location, setLocation] = useState<LocationInfo>({
-    district: 'Thanjavur',
-    block: 'Orathanadu',
-    village: 'Sample Village',
+export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Theme state
+  const [theme, setThemeState] = useState<Theme>(() => {
+    try {
+      const saved = localStorage.getItem(THEME_STORAGE_KEY);
+      if (saved && ['agriculture', 'sky', 'monsoon', 'light', 'dark'].includes(saved)) {
+        return saved as Theme;
+      }
+    } catch (e) {}
+    return 'agriculture';
   });
 
-  const [selectedCrop, setSelectedCrop] = useState<CropType>('Paddy');
+  // Language state
+  const [language, setLanguageState] = useState<Language>(() => {
+    try {
+      const saved = localStorage.getItem(LANG_STORAGE_KEY);
+      if (saved && ['en', 'ta', 'hi'].includes(saved)) {
+        return saved as Language;
+      }
+    } catch (e) {}
+    return 'en';
+  });
+
+  // Current User state
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => authService.getCurrentUser());
+
+  const [activePage, setActivePage] = useState<PageId>('home');
+
+  const [location, setLocation] = useState<LocationInfo>(() => {
+    if (currentUser?.district && currentUser?.block && currentUser?.village) {
+      return {
+        district: currentUser.district,
+        block: currentUser.block,
+        village: currentUser.village,
+      };
+    }
+    return {
+      district: 'Thanjavur',
+      block: 'Orathanadu',
+      village: 'Sample Village',
+    };
+  });
+
+  const [selectedCrop, setSelectedCrop] = useState<CropType>(() => currentUser?.preferredCrop || 'Paddy');
   const [scenario, setScenario] = useState<'default' | 'early_onset' | 'prolonged_break' | 'active_monsoon' | 'drought_risk'>('default');
 
   const [currentWeather, setCurrentWeather] = useState<CurrentWeather>({
@@ -76,6 +121,44 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [alerts, setAlerts] = useState<WeatherAlert[]>(INITIAL_ALERTS);
   const [feedbackList, setFeedbackList] = useState<FarmerFeedbackItem[]>(INITIAL_FEEDBACK);
+
+  // Set Theme function with HTML data-attribute reflection and persistence
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+    } catch (e) {}
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  // Set Language function with persistence
+  const setLanguage = (newLang: Language) => {
+    setLanguageState(newLang);
+    try {
+      localStorage.setItem(LANG_STORAGE_KEY, newLang);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    // Apply theme data attribute on mount and theme change
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  // Sync state if currentUser changes
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.district && currentUser.block && currentUser.village) {
+        setLocation({
+          district: currentUser.district,
+          block: currentUser.block,
+          village: currentUser.village,
+        });
+      }
+      if (currentUser.preferredLanguage) setLanguage(currentUser.preferredLanguage);
+      if (currentUser.preferredCrop) setSelectedCrop(currentUser.preferredCrop);
+      if (currentUser.theme) setTheme(currentUser.theme);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     let tempMod = 0;
@@ -124,6 +207,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setFeedbackList((prev) => [newItem, ...prev]);
   };
 
+  const logoutUser = () => {
+    authService.logout();
+    setCurrentUser(null);
+  };
+
   const runDemoScenario = () => {
     const scenarios: ('default' | 'early_onset' | 'prolonged_break' | 'active_monsoon' | 'drought_risk')[] = [
       'early_onset',
@@ -150,6 +238,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       value={{
         language,
         setLanguage,
+        theme,
+        setTheme,
         activePage,
         setActivePage,
         location,
@@ -169,6 +259,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         districts,
         blocks,
         villages,
+        currentUser,
+        setCurrentUser,
+        logoutUser,
+        isAuthenticated: Boolean(currentUser),
       }}
     >
       {children}
