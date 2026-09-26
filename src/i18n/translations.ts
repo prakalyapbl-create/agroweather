@@ -3,7 +3,7 @@ import type { Language } from '../types';
 export const TRANSLATIONS: Record<Language, Record<string, string>> = {
   en: {
     // Brand
-    brandTitle: 'HyperMonsoon',
+    brandTitle: 'Agroweather',
     brandSubtitle: 'Hyperlocal Monsoon Intelligence for Every Village',
     heroDesc: 'Predict monsoon onset and breaks at Block/Village scale and turn weather intelligence into actionable decisions for farmers.',
     predict: 'Predict',
