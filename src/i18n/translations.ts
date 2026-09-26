@@ -3,8 +3,8 @@ import type { Language } from '../types';
 export const TRANSLATIONS: Record<Language, Record<string, string>> = {
   en: {
     // Brand
-    brandTitle: 'AgroWeather',
-    brandSubtitle: 'Hyperlocal Monsoon Onset & Break Prediction System',
+    brandTitle: 'HyperMonsoon',
+    brandSubtitle: 'Hyperlocal Monsoon Intelligence for Every Village',
     heroDesc: 'Predict monsoon onset and breaks at Block/Village scale and turn weather intelligence into actionable decisions for farmers.',
     predict: 'Predict',
     plan: 'Plan',
@@ -111,7 +111,7 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     viewAdvisoryAction: 'View Crop Advisory',
 
     // Disclaimers
-    disclaimer: 'AgroWeather is a production-grade decision-support system for farmers. Predictions are generated alongside official weather forecasts and local agricultural guidance.',
+    disclaimer: 'HyperMonsoon is a prototype decision-support system for demonstration. Predictions are experimental and should be used alongside official weather forecasts and local agricultural guidance.',
     tagline: 'Know the Rain. Plan the Crop. Protect the Harvest.',
 
     // Authentication UI
@@ -172,8 +172,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
 
   ta: {
     // Brand
-    brandTitle: 'அக்ரோ-வெதர்',
-    brandSubtitle: 'ஒவ்வொரு கிராமத்திற்கும் சிற்றூர் அளவிலான வானிலை கணிப்பு',
+    brandTitle: 'ஹைப்பர்-மன்சூன்',
+    brandSubtitle: 'ஒவ்வொரு கிராமத்திற்கும் சிற்றூர் அளவிலான பருவமழை கணிப்பு',
     heroDesc: 'வட்டாரம் மற்றும் கிராம அளவில் பருவமழை தொடக்கம் மற்றும் இடைவெளிகளை கணித்து விவசாயிகளுக்கு பயனுள்ள ஆலோசனைகளை வழங்குங்கள்.',
     predict: 'கணிப்பு',
     plan: 'திட்டமிடு',
@@ -341,8 +341,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
 
   hi: {
     // Brand
-    brandTitle: 'एग्रो-वेदर',
-    brandSubtitle: 'हर गांव के लिए हाइपरलोकल मौसम इंटेलिजेंस',
+    brandTitle: 'हाइपर-मानसून',
+    brandSubtitle: 'हर गांव के लिए हाइपरलोकल मानसून इंटेलिजेंस',
     heroDesc: 'ब्लॉक और गांव स्तर पर मानसून के आगमन और ब्रेक का अनुमान लगाएं और मौसम की जानकारी को किसानों के लिए व्यावहारिक निर्णयों में बदलें।',
     predict: 'पूर्वानुमान',
     plan: 'योजना',

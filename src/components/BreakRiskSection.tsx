@@ -26,7 +26,7 @@ export const BreakRiskSection: React.FC = () => {
         </h1>
 
         <p className="text-sm theme-text-muted max-w-3xl leading-relaxed">
-          Monsoon breaks refer to temporary gaps in rainfall lasting 4 to 10 days during the active monsoon season. AgroWeather detects atmospheric drying signs early to protect crops from moisture stress.
+          Monsoon breaks refer to temporary gaps in rainfall lasting 4 to 10 days during the active monsoon season. HyperMonsoon detects atmospheric drying signs early to protect crops from moisture stress.
         </p>
       </div>
 

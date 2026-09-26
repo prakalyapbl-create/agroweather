@@ -12,7 +12,7 @@ export interface WeatherInputs {
 }
 
 /**
- * AgroWeather Prediction Engine
+ * HyperMonsoon Prototype Prediction Engine
  * Calculates weighted scores for onset, break risk, and rainfall probability
  * based on atmospheric, soil, satellite, and historical indicators.
  */

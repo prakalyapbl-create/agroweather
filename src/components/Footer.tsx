@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
             </p>
             
             <p className="text-xs theme-text-muted leading-relaxed">
-              AgroWeather provides block and village scale predictions of monsoon onset, dry spells/breaks, and localized agricultural decision advisories for farmers, FPOs, and agricultural officers across rural India.
+              HyperMonsoon provides block and village scale predictions of monsoon onset, dry spells/breaks, and localized agricultural decision advisories for farmers, FPOs, and agricultural officers across rural India.
             </p>
 
             {/* Prototype Banner Note */}
@@ -103,7 +103,7 @@ export const Footer: React.FC = () => {
 
         {/* Copyright & Bottom Info */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs theme-text-muted">
-          <p>© 2026 AgroWeather System. Built for Agricultural Resilience & Food Security.</p>
+          <p>© 2026 HyperMonsoon System. Built for Agricultural Resilience & Food Security.</p>
           <div className="flex items-center space-x-1 mt-2 sm:mt-0">
             <span>Crafted with</span>
             <Heart className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />

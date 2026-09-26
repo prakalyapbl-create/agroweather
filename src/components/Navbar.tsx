@@ -76,26 +76,33 @@ export const Navbar: React.FC = () => {
     <>
       <header className="sticky top-0 z-50 theme-bg-nav backdrop-blur-md border-b theme-border shadow-lg transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 min-w-0">
+          <div className="flex items-center justify-between h-16">
+            
             {/* Logo & Title */}
             <div
-              className="flex min-w-0 shrink-0 items-center space-x-3 cursor-pointer group"
+              className="flex items-center space-x-3 cursor-pointer group"
               onClick={() => setActivePage('home')}
             >
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
                 <CloudRain className="w-6 h-6 text-slate-950 stroke-[2.5]" />
               </div>
-              <div className="min-w-0">
-                <div className="flex items-center">
-                  <span className="whitespace-nowrap font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
                     {t('brandTitle')}
                   </span>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    PRODUCE V2.0
+                  </span>
                 </div>
+                <p className="text-[11px] theme-text-muted font-medium hidden md:block">
+                  {t('brandSubtitle')}
+                </p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden xl:flex items-center space-x-1">
+            <nav className="hidden lg:flex items-center space-x-1">
               {navItems.slice(0, 6).map((item) => {
                 const isActive = activePage === item.id;
                 return (
@@ -145,7 +152,7 @@ export const Navbar: React.FC = () => {
             </nav>
 
             {/* Right Header Controls */}
-            <div className="flex shrink-0 items-center space-x-1.5 sm:space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               {/* Scenario Cycle Button */}
               <button
                 onClick={runDemoScenario}
@@ -199,7 +206,7 @@ export const Navbar: React.FC = () => {
               </div>
 
               {/* Language Picker */}
-              <div className="hidden md:flex items-center theme-bg-input rounded-lg p-1 border theme-border">
+              <div className="flex items-center theme-bg-input rounded-lg p-1 border theme-border">
                 <Globe className="w-3.5 h-3.5 text-emerald-400 ml-1 mr-1" />
                 {languages.map((lang) => (
                   <button
@@ -244,7 +251,7 @@ export const Navbar: React.FC = () => {
               {/* Mobile Hamburger Toggle */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="xl:hidden p-2 rounded-lg theme-text-secondary hover:theme-text-primary hover:bg-emerald-500/10"
+                className="lg:hidden p-2 rounded-lg theme-text-secondary hover:theme-text-primary hover:bg-emerald-500/10"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -254,7 +261,7 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Menu Panel */}
         {mobileMenuOpen && (
-          <div className="xl:hidden theme-bg-card border-b theme-border px-4 pt-2 pb-4 space-y-1">
+          <div className="lg:hidden theme-bg-card border-b theme-border px-4 pt-2 pb-4 space-y-1">
             <div className="mb-2 pb-2 border-b theme-border-subtle flex flex-col space-y-2">
               <button
                 onClick={() => {
@@ -327,7 +334,7 @@ export const Navbar: React.FC = () => {
       </header>
 
       {/* Bottom Mobile Navigation Bar */}
-      <nav className="xl:hidden fixed bottom-0 left-0 right-0 z-50 theme-bg-nav backdrop-blur-md border-t theme-border py-1 px-2 flex justify-around items-center">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 theme-bg-nav backdrop-blur-md border-t theme-border py-1 px-2 flex justify-around items-center">
         {[
           { id: 'home', label: t('navHome'), icon: <Home className="w-5 h-5" /> },
           { id: 'dashboard', label: t('navDashboard'), icon: <LayoutDashboard className="w-5 h-5" /> },
